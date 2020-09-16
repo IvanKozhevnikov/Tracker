@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>
+        Отправляем JSON-данные на сервер
+    </title>
+
+</head>
+
+<body style="text-align:center;" id="body"> <!-- заголовок -->
+<h1 style="color:green;"> Создание заявки </h1>
+<a href="/tracker/menu"><h2 align="right" style="color:green;">> Меню заявок</h2></a>
+<!-- делаем форму с полями ввода -->
+<p>
+    <!-- <input type="text" id="id" placeholder="Введите id">-->
+    <input type="text" id="numberItem" placeholder="Введите номер заявки">
+    <input type="text" id="description" placeholder="Введите текст заявки">
+    <!-- по нажатию на эту кнопку данные уйдут на сервер -->
+    <button onclick="createUser()">Добавить</button>
+
+<h2 style="color:green;"> Содержание сохранённой заявки </h2>
+<p class="result" style="color:dodgerblue"></p> </p>
+
+<script>
+    function createUser() {
+        // let result = document.querySelector('.result');
+        // let id = document.getElementById("id").value;
+        let result = document.querySelector('.result');
+        let numberItem = document.getElementById("numberItem").value;
+        let description = document.getElementById("description").value;
+        let xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                // console.log(this.responseText);
+                result.innerHTML = this.responseText;
+            }
+        });
+        xhr.open("POST", "http://localhost:8080/tracker/create", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify({numberItem: numberItem, description: description}));
+    }
+</script>
+
+</body>
+
+</html>
